@@ -55,28 +55,31 @@ def rename_files_with_strings(input_path):
         # 解析 .inf 文件内容
         file_names = parse_inf_file(inf_content)
 
+        # 创建或检查 bak 文件夹
+        bak_folder = os.path.join(input_path, 'bak')
+        if not os.path.exists(bak_folder):
+            os.makedirs(bak_folder)
+
         # 重命名文件
         for obj, file_name in file_names:
             old_file_path = os.path.join(input_path, obj)
             new_file_path = os.path.join(input_path, file_name + '.ani')
             if os.path.exists(old_file_path):
                 if old_file_path != new_file_path:
+                    shutil.copyfile(old_file_path, os.path.join(bak_folder, obj))
                     shutil.copyfile(old_file_path, new_file_path)
                     print(f"复制文件: {old_file_path} -> {new_file_path}")
             else:
                 print(f"文件不存在: {old_file_path}")
 
-        # 创建或检查 bak 文件夹
-        bak_folder = os.path.join(input_path, 'bak')
-        if not os.path.exists(bak_folder):
-            os.makedirs(bak_folder)
 
-        # 将 old_file_path 中的所有文件移动到 bak 文件夹中
-        for obj, _ in file_names:
-            old_file_path = os.path.join(input_path, obj)
-            if os.path.exists(old_file_path):
-                shutil.move(old_file_path, bak_folder)
-                print(f"移动文件到 bak 文件夹: {old_file_path}")
+
+        # # 将 old_file_path 中的所有文件移动到 bak 文件夹中
+        # for obj, _ in file_names:
+        #     old_file_path = os.path.join(input_path, obj)
+        #     if os.path.exists(old_file_path):
+        #         shutil.copyfile(old_file_path, bak_folder)
+        #         print(f"复制文件到 bak 文件夹: {old_file_path}")
 
     else:
         print("未找到 .inf 文件")
