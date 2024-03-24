@@ -1,0 +1,3 @@
+[submodule "utils/win2xcur"]
+	path = utils/win2xcur
+	url = https://github.com/quantum5/win2xcur.git

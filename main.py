@@ -1,6 +1,7 @@
 import os
 import shutil
 import sys
+import argparse
 from pathlib import Path
 from convert import convert_cursors
 from mapper import convert_filenames
@@ -8,7 +9,15 @@ from symlinks import add_missing_xcursor
 from clickgen.packagers import XPackager
 from renamer import rename_files_with_strings
 
-def main(input_folder_a, output_folder_b, name):
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Convert Windows cursors to X11 cursors.")
+    parser.add_argument("-i", "--input", type=str, help="Input folder path.")
+    parser.add_argument("-o", "--output", type=str, help="Output folder path, default to output folder under input folder.", default=None)
+    parser.add_argument("-n", "--name", type=str, help="Name of the cursor pack")
+    parser.add_argument("-s", "--size", type=int, help="The size of the converted cursor pack (equal width and height)", default=0)
+    return parser.parse_args()
+
+def main(input_folder_a, output_folder_b, name, size):
     # 创建临时文件夹/tmp
     tmp_folder = os.path.join(input_folder_a, "tmp")
     os.makedirs(tmp_folder, exist_ok=True)
@@ -22,7 +31,7 @@ def main(input_folder_a, output_folder_b, name):
         rename_files_with_strings(input_folder_a)
 
         # 步骤1：调用convert.py中的convert_cursors方法
-        convert_cursors(input_folder_a, tmp_folder)
+        convert_cursors(input_folder_a, tmp_folder, size)
 
         # 步骤2：调用mapper.py中的convert_filenames方法
         convert_filenames(tmp_folder, cursor_folder)
@@ -43,15 +52,17 @@ def main(input_folder_a, output_folder_b, name):
         # shutil.rmtree(tmp_folder)
 
 if __name__ == "__main__":
-    # 检查命令行参数是否正确
-    if len(sys.argv) != 4:
-        print("请提供输入文件夹、输出文件夹和名称作为命令行参数。")
-        print("用法: python main.py <input_folder_a> <output_folder_b> <name>")
-        sys.exit(1)
 
-    input_folder_a = sys.argv[1]
-    output_folder_b = sys.argv[2]
-    name = sys.argv[3]
+    args = parse_arguments()
+    input_folder_a = args.input
+
+    if args.output is None:
+        output_folder_b = os.path.join(input_folder_a, "output")
+    else:
+        output_folder_b = args.output
+
+    name = args.name
+    size = args.size
 
     output_folder_b = os.path.join(output_folder_b, name)
 
@@ -59,4 +70,4 @@ if __name__ == "__main__":
         os.makedirs(output_folder_b)    
 
     # 调用主函数
-    main(input_folder_a, output_folder_b, name)
+    main(input_folder_a, output_folder_b, name, size)
