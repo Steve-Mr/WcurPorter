@@ -6,7 +6,7 @@ from pathlib import Path
 from convert import convert_cursors
 from mapper import convert_filenames
 from symlinks import add_missing_xcursor
-from clickgen.packagers import XPackager
+from clickgen.packer import pack_x11
 from renamer import rename_files_with_strings
 
 def parse_arguments():
@@ -42,8 +42,8 @@ def main(input_folder_a, output_folder_b, name, size):
         # 步骤4：调用symlinks.py中的add_missing_xcursor方法
         # print(cursor_folder)
         add_missing_xcursor(cursor_folder)
-
-        XPackager(Path(output_folder_b), name, f"{name} Cursors")
+        
+        pack_x11(Path(output_folder_b), name, f"{name} Cursors")
 
         print("完成所有操作。")
     except Exception as e:

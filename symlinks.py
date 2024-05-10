@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 from typing import Dict, List, Union
 
-from clickgen.util import chdir
+from clickgen.scripts.ctgen import cwd
 
 
 def add_missing_xcursor(directory: Path) -> None:
@@ -167,7 +167,7 @@ def add_missing_xcursor(directory: Path) -> None:
         {"src": "xterm", "links": ["ibeam", "text"]},
     ]
 
-    with chdir(directory):
+    with cwd(directory):
         for item in symlinks:
             src = str(item["src"])
             links = item["links"]
