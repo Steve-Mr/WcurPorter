@@ -6,10 +6,10 @@ from multiprocessing.pool import ThreadPool
 from threading import Lock
 from typing import BinaryIO
 
-from utils.win2xcur.win2xcur.parser import open_blob
-from utils.win2xcur.win2xcur import scale, shadow
-from utils.win2xcur.win2xcur.parser import open_blob
-from utils.win2xcur.win2xcur.writer import to_x11
+from win2xcur.parser import open_blob
+from win2xcur import scale, shadow
+from win2xcur.parser import open_blob
+from win2xcur.writer import to_x11
 
 def convert_cursors(input_folder, output_folder, size):
     # 处理输入文件夹和输出文件夹参数中最后是否有 "/" 的情况

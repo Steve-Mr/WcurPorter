@@ -7,7 +7,11 @@
 ## 使用方法
 
 ### 安装
-`git clone --recurse-submodules https://github.com/Steve-Mr/WcurPorter.git`
+```sh
+pip install -e git+https://github.com/quantum5/win2xcur.git#egg=win2xcur
+pip install chardet clickgen numpy
+```
+`git clone https://github.com/Steve-Mr/WcurPorter.git`
 
 ### 使用
 ```
