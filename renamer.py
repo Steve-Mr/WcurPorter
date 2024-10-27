@@ -34,7 +34,7 @@ def parse_inf_file(inf_content):
         for key, value in strings_dict.items():
             if value == obj:
                 file_names.append((value, key))
-                break
+                # break
 
     return file_names
 
